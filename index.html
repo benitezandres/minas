@@ -100,6 +100,11 @@ and open the template in the editor.
                     total = total + 1;
                     console.log(i,'bomba superior izquierdo');
                 }
+                 //Verifico si hay una bomba al lado superior derecho
+                if(i>9 && !esq_der && cuadrados[(i-ancho)+1].classList.contains('bombas')){
+                    total = total + 1;
+                    console.log(i,'bomba superior derecha');
+                }
                 if(cuadrados[i].classList.contains('vacios')){
                     cuadrados[i].setAttribute('data-total',total);
                 }
