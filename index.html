@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            *{
+                box-sizing: border-box;
+            }
+            #grid{
+                width: 400px;
+                height: 400px;
+                background-color: gray;
+                display: flex;
+                flex-wrap: wrap;
+            }
+            #grid div{
+                width: 40px;
+                height: 40px;
+                background-color: aquamarine;
+                border:1px solid white;
+            }
+            
+            #grid div.bombas{
+                background-color: brown;
+            }
+            
+            #grid div.esquinas{
+                /*background-color: blueviolet !important;*/
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <div id="grid">
+                
+            </div>
+        </div>
+        <script>
+            let grid = document.querySelector('#grid');
+            let ancho = 40;
+            //Arreglo que contendra los nodos HTML 
+            let cuadrados = [];
+            let vacios = Array(80).fill('vacios');
+            let bombas = Array(20).fill('bombas');
+            let todos = vacios.concat(bombas).sort(function(){
+                return Math.random() -0.5;
+            });
+            //console.log(vacios);
+            //console.log(bombas);
+            console.log(todos);
+            
+            for(let i=0;i<10 * 10 ; i++){
+                //console.log(i);
+                let cuadrado = document.createElement('div');
+                cuadrado.setAttribute('id',i);
+                cuadrado.setAttribute('class',todos[i]);
+                cuadrado.innerHTML = i;
+                grid.appendChild(cuadrado);
+                cuadrados.push(cuadrado);
+                //console.log(i, Math.random() -0.5);
+            }
+            
+            //verifico las esquinas
+            for(let i=0;i<10*10;i++){
+                let total = 0;
+                let esq_izq =  i%10 === 0;
+                let esq_der = (i+1)%10 === 0;
+                if(esq_izq || esq_der){
+                    cuadrados[i].classList.add('esquinas');
+                }
+                //Verifico que no sea una esquina izquierda y que el cuadro a la izquierda sea una bomba
+                if(i>0 && !esq_izq && cuadrados[i-1].classList.contains('bombas')){
+                    console.log(i,'bomba izquierda');
+                    total = total + 1;
+                }
+                //Verifico que no sea una esquina derecha y que el cuadro a la izquierda sea una bomba
+                if(i<98 && !esq_der && cuadrados[i+1].classList.contains('bombas')){
+                    console.log(i,'bomba derecha');
+                    total = total + 1;
+                }
+                //Verifici si hay una bomba arriba
+                if(i>10 && cuadrados[i-10].classList.contains('bombas')){
+                    total = total + 1;
+                    console.log(i,'bomba arriba');
+                }
+                //Verifico si hay una bomba abajo
+                if(i<90 && cuadrados[i+10].classList.contains('bombas')){
+                    total = total + 1;
+                    console.log(i,'bomba abajo');
+                }
+                
+                if(cuadrados[i].classList.contains('vacios')){
+                    cuadrados[i].setAttribute('data-total',total);
+                }
+                
+            }
+        </script>
+    </body>
+</html>
