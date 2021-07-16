@@ -44,7 +44,7 @@ and open the template in the editor.
         </div>
         <script>
             let grid = document.querySelector('#grid');
-            let ancho = 40;
+            let ancho = 10;
             //Arreglo que contendra los nodos HTML 
             let cuadrados = [];
             let vacios = Array(80).fill('vacios');
@@ -68,7 +68,7 @@ and open the template in the editor.
             }
             
             //verifico las esquinas
-            for(let i=0;i<10*10;i++){
+            for(let i=0;i<ancho*ancho;i++){
                 let total = 0;
                 let esq_izq =  i%10 === 0;
                 let esq_der = (i+1)%10 === 0;
@@ -86,16 +86,20 @@ and open the template in the editor.
                     total = total + 1;
                 }
                 //Verifici si hay una bomba arriba
-                if(i>10 && cuadrados[i-10].classList.contains('bombas')){
+                if(i>10 && cuadrados[i-ancho].classList.contains('bombas')){
                     total = total + 1;
                     console.log(i,'bomba arriba');
                 }
                 //Verifico si hay una bomba abajo
-                if(i<90 && cuadrados[i+10].classList.contains('bombas')){
+                if(i<90 && cuadrados[i+ancho].classList.contains('bombas')){
                     total = total + 1;
                     console.log(i,'bomba abajo');
                 }
-                
+                //Verifico si hay una bomba al lado superior izquierdo
+                if(i>10 && !esq_izq && cuadrados[(i-ancho)-1].classList.contains('bombas')){
+                    total = total + 1;
+                    console.log(i,'bomba superior izquierdo');
+                }
                 if(cuadrados[i].classList.contains('vacios')){
                     cuadrados[i].setAttribute('data-total',total);
                 }
